@@ -13,7 +13,7 @@ public class runit {
         brd.login();
         System.out.println(brd);
 // Get information of current logged in user and print it
-        brd.get_tenants_assets();
+        //brd.get_tenants_assets();
 // Perform logout of current user and close the client
         brd.connection_close();
 

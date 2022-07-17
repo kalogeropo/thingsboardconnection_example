@@ -5,17 +5,18 @@ import org.thingsboard.server.common.data.page.PageData;
 import org.thingsboard.server.common.data.page.PageLink;
 public class ThingsBoard {
     // TEPMSENS URL
-     private final String url = "https://tempsens.isi.gr";
-     RestClient client = new RestClient(url);
+     private final String url;
+     RestClient client;
     // Tenant Administrator credentials
     private final String username;
     private final String password;
     PageData<Asset> assets;
     public ThingsBoard() {
         // Default Tenant Administrator credentials as ADMIN!
-         username = "tempsenstb@isi.gr";
-         password = "fyu8h6bs4Sa3DEx";
-
+        url = "https://tempsens.isi.gr";
+        username = "tempsenstb@isi.gr";
+        password = "fyu8h6bs4Sa3DEx";
+        client = new RestClient(url);
     }
     public void connection_close(){
         // Perform logout of current user and close the client

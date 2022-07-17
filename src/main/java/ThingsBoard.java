@@ -5,11 +5,11 @@ import org.thingsboard.server.common.data.page.PageData;
 import org.thingsboard.server.common.data.page.PageLink;
 public class ThingsBoard {
     // TEPMSENS URL
-     private String url = "https://tempsens.isi.gr";
+     private final String url = "https://tempsens.isi.gr";
      RestClient client = new RestClient(url);
     // Tenant Administrator credentials
-    private String username;
-    private String password;
+    private final String username;
+    private final String password;
     PageData<Asset> assets;
     public ThingsBoard() {
         // Default Tenant Administrator credentials as ADMIN!

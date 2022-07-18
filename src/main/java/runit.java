@@ -3,6 +3,8 @@
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
+import java.util.ArrayList;
+
 public class runit {
 
 
@@ -13,8 +15,14 @@ public class runit {
         brd.login();
         System.out.println(brd);
 // Get information of current logged in user and print it
-        //brd.get_tenants_assets();
-// Perform logout of current user and close the client
+        ArrayList<String> locations = new ArrayList<>();
+        String[] types={"Truck","Storage"};
+        for(String type: types) {
+            locations.addAll(brd.getLocations(brd.getTenantAssetsByType(type)));
+        }
+        for (String loc: locations)
+        {System.out.println(loc);}
+        // Perform logout of current user and close the client
         brd.connection_close();
 
     }

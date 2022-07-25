@@ -1,7 +1,7 @@
 
 
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.ClientHttpResponse;
+//import org.springframework.http.client.ClientHttpRequestInterceptor;
+//import org.springframework.http.client.ClientHttpResponse;
 
 import java.util.ArrayList;
 
@@ -16,14 +16,20 @@ public class runit {
         System.out.println(brd);
 // Get information of current logged in user and print it
         ArrayList<String> locations = new ArrayList<>();
-        String[] types={"Truck","Storage"};
+        ArrayList<String> RFids = new ArrayList<>();
+
+        String[] types={"Milk"};
         for(String type: types) {
-            locations.addAll(brd.getLocations(brd.getTenantAssetsByType(type)));
+            locations.addAll(brd.getNames(brd.getTenantAssetsByType(type)));
+            RFids.addAll(brd.getAssetsRFID(brd.getTenantAssetsByType(type)));
         }
-        for (String loc: locations)
-        {System.out.println(loc);}
+        System.out.println(RFids);
+        //for (String loc: locations)
+        //{System.out.println(loc);}
         // Perform logout of current user and close the client
         brd.connection_close();
+        String file = "C:\\Users\\nrk_pavilion\\IdeaProjects\\thingsboardconnection_example\\src\\main\\java\\RFID.csv";
+        //brd.parsecsv(file);
 
     }
 }

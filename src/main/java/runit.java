@@ -18,14 +18,16 @@ public class runit {
         ArrayList<String> locations = new ArrayList<>();
         ArrayList<String> RFids = new ArrayList<>();
 
-        String[] types={"Milk"};
+        String[] types={""};
         for(String type: types) {
             locations.addAll(brd.getNames(brd.getTenantAssetsByType(type)));
-            RFids.addAll(brd.getAssetsRFID(brd.getTenantAssetsByType(type)));
         }
-        System.out.println(RFids);
-        //for (String loc: locations)
-        //{System.out.println(loc);}
+        System.out.println(locations);
+        for (String loc: locations) {
+            System.out.println(loc);
+        }
+        brd.ChangeRelationship("E28011710000020D56CF9D8D","TestLoc");
+
         // Perform logout of current user and close the client
         brd.connection_close();
         String file = "C:\\Users\\nrk_pavilion\\IdeaProjects\\thingsboardconnection_example\\src\\main\\java\\RFID.csv";

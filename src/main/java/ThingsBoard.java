@@ -2,15 +2,20 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import org.thingsboard.rest.client.RestClient;
 import org.thingsboard.server.common.data.asset.Asset;
+import org.thingsboard.server.common.data.id.AssetId;
 import org.thingsboard.server.common.data.id.EntityId;
 import org.thingsboard.server.common.data.kv.AttributeKvEntry;
 import org.thingsboard.server.common.data.page.PageData;
 import org.thingsboard.server.common.data.page.PageLink;
+import org.thingsboard.server.common.data.relation.EntityRelation;
+import org.thingsboard.server.common.data.relation.RelationsSearchParameters;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringBufferInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -25,11 +30,10 @@ public class ThingsBoard {
 
     public ThingsBoard() {
         // Default Tenant Administrator credentials as ADMIN!
-        //url = "https://tempsens.isi.gr";
-        url ="http://195.251.58.245:13090";
+        url ="";
 
-        username = "tempsenstb1@isi.gr";
-        password = "39r$LA6E8nli";
+        username = "";
+        password = "";
         client = new RestClient(url);
     }
     public void connection_close(){
@@ -40,7 +44,35 @@ public class ThingsBoard {
     public void login(){
         client.login(username,password);
     }
+    public AssetId QueryIDbyName(String RFID){
+        System.out.println("==============");
+        AssetId Id = client.findAsset(RFID).get().getId();
+        //client.deleteRelation(fromID,Type,TypeGroup,ToId);
+        //client.deleteRelations(Id);
+        return Id;
+    }
+    public String QueryTypebyName(String RFID){
+        System.out.println("==============");
+        String type = client.findAsset(RFID).get().getType();
+        //client.deleteRelation(fromID,Type,TypeGroup,ToId);
+        //client.deleteRelations(Id);
+        return type;
+    }
+    public void ChangeRelationship(String FromName, String ToLocation){
+        EntityId FromID = QueryIDbyName(FromName);
+        EntityId ToLocationID = QueryIDbyName(ToLocation);
+        String FromAssetType = QueryTypebyName(FromName);
+        System.out.println(FromAssetType);
+        String ToAssetType = QueryTypebyName(ToLocation);
+        ArrayList<String> AcceptedTypes = new ArrayList<>(List.of("Milk","Cheese","Loc"));
+        if(AcceptedTypes.contains(FromAssetType)&&AcceptedTypes.contains(ToAssetType)){
+            //System.out.println("Delete "+ FromName+ "With id "+FromID+"\n"+"Adding relation to "+ToLocationID +" "+ToLocation );
+            client.deleteRelations(FromID);
+            EntityRelation newRel = new EntityRelation(FromID,ToLocationID,"Contains");
+            client.saveRelation(newRel);
+        }
 
+    }
     public PageData<Asset> getTenantAssetsByType(String assetType) {
         //aggressivly high pageSize in order to avoid a while loop
         PageLink pageLink = new PageLink(1000);
@@ -57,6 +89,8 @@ public class ThingsBoard {
         }
         return (Names);
     }
+
+    //Deprecated after changed Names to RFIDs
     public ArrayList<String> getAssetsRFID (PageData <Asset> asset) {
         ArrayList<String> RFIDs  =new ArrayList<>();
         EntityId temp=null;

@@ -64,7 +64,7 @@ public class ThingsBoard {
         String FromAssetType = QueryTypebyName(FromName);
         System.out.println(FromAssetType);
         String ToAssetType = QueryTypebyName(ToLocation);
-        ArrayList<String> AcceptedTypes = new ArrayList<>(List.of("Milk","Cheese","Loc"));
+        ArrayList<String> AcceptedTypes = new ArrayList<>(List.of("Milk","Cheese","Loc","Truck","Storage"));
         if(AcceptedTypes.contains(FromAssetType)&&AcceptedTypes.contains(ToAssetType)){
             //System.out.println("Delete "+ FromName+ "With id "+FromID+"\n"+"Adding relation to "+ToLocationID +" "+ToLocation );
             client.deleteRelations(FromID);
